@@ -1,0 +1,210 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="SequenceMail" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="SequenceMail_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="SequenceMail" sap2010:WorkflowViewState.IdRef="Sequence_2">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="messages" />
+      <Variable x:TypeArguments="x:String" Name="userEmail" />
+      <Variable x:TypeArguments="x:String" Name="name" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="tciketDetail" />
+      <Variable x:TypeArguments="x:String" Name="summary" />
+      <Variable x:TypeArguments="x:String" Name="subject" />
+    </Sequence.Variables>
+    <ui:GetPOP3MailMessages TimeoutMS="{x:Null}" DeleteMessages="False" DisplayName="Get POP3 Mail Messages" Email="ibsmailbot@gmail.com" EnableSSL="False" sap2010:WorkflowViewState.IdRef="GetPOP3MailMessages_1" Messages="[messages]" Password="mailbot123" Port="995" SecureConnection="Auto" Server="pop.gmail.com" Top="10" />
+    <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[messages.Count.ToString]" />
+    <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[messages]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="snm:MailMessage">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="item" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_1">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:String" Name="strBody" />
+              <Variable x:TypeArguments="x:String" Name="emails" />
+              <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="result" />
+            </Sequence.Variables>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[strBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[item.Body]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:InvokeCode ContinueOnError="{x:Null}" Code="&#xA; HTMLCode = HTMLCode.Replace(&quot;\\n&quot;,&quot;&quot;)&#xA;  HTMLCode = HTMLCode.Replace(&quot;\\n\\n&quot;,&quot;&quot;)&#xA; &#xA; ' Remove tab spaces&#xA; HTMLCode = HTMLCode.Replace(&quot;\t&quot;, &quot; &quot;)&#xA; &#xA; ' Remove multiple white spaces from HTML&#xA; HTMLCode = System.Text.RegularExpressions.Regex.Replace(HTMLCode, &quot;\\s+&quot;, &quot;  &quot;)&#xA; &#xA; ' Remove HEAD tag&#xA; HTMLCode = System.Text.RegularExpressions.Regex.Replace(HTMLCode, &quot;&lt;head.*?&lt;/head&gt;&quot;, &quot;&quot; _&#xA;   , System.Text.RegularExpressions.RegexOptions.IgnoreCase Or System.Text.RegularExpressions.RegexOptions.Singleline)&#xA; &#xA; ' Remove any JavaScript&#xA; HTMLCode = System.Text.RegularExpressions.Regex.Replace(HTMLCode, &quot;&lt;script.*?&lt;/script&gt;&quot;, &quot;&quot; _&#xA;   , System.Text.RegularExpressions.RegexOptions.IgnoreCase Or System.Text.RegularExpressions.RegexOptions.Singleline)&#xA; &#xA; ' Replace special characters like &amp;, &lt;, &gt;, &quot; etc.&#xA; Dim sbHTML As System.Text.StringBuilder = New System.Text.StringBuilder(HTMLCode)&#xA; ' Note: There are many more special characters, these are just&#xA; ' most common. You can add new characters in this arrays if needed&#xA; Dim OldWords() As String = {&quot;&amp;nbsp;&quot;, &quot;&amp;amp;&quot;, &quot;&amp;quot;&quot;, &quot;&amp;lt;&quot;, _&#xA;    &quot;&amp;gt;&quot;, &quot;&amp;reg;&quot;, &quot;&amp;copy;&quot;, &quot;&amp;bull;&quot;, &quot;&amp;trade;&quot;}&#xA; Dim NewWords() As String = {&quot; &quot;, &quot;&amp;&quot;, &quot;&quot;&quot;&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;Â®&quot;, &quot;Â©&quot;, &quot;â€¢&quot;, &quot;â„¢&quot;}&#xA; For i As Integer = 0 To OldWords.Length -1 &#xA;   sbHTML.Replace(OldWords(i), NewWords(i))&#xA; Next i&#xA; &#xA; ' Check if there are line breaks (&lt;br&gt;) or paragraph (&lt;p&gt;)&#xA; sbHTML.Replace(&quot;&lt;br&gt;&quot;, &quot;\n&lt;br&gt;&quot;)&#xA; sbHTML.Replace(&quot;&lt;br &quot;, &quot;\n&lt;br &quot;)&#xA; sbHTML.Replace(&quot;&lt;p &quot;, &quot;\n&lt;p &quot;)&#xA; &#xA; &#xA; HTMLCode=System.Text.RegularExpressions.Regex.Replace(sbHTML.ToString(), &quot;&lt;[^&gt;]*&gt;&quot;, &quot;&quot;)&#xA; Dim email As String =&quot;&quot;&#xA; Dim RegExMatch As System.Text.RegularExpressions.MatchCollection = System.Text.RegularExpressions.Regex.Matches(HTMLCode,  &quot;\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*&quot;)&#xA;&#xA;    For i As Integer = 0 To RegExMatch.Count - 1&#xA;        If  email.Length =0 Then&#xA;            email = RegExMatch(i).Value&#xA;   &#xA;        End If&#xA;    Next&#xA; userEmail =email&#xA; " DisplayName="Invoke Code" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+              <ui:InvokeCode.Arguments>
+                <InOutArgument x:TypeArguments="x:String" x:Key="HTMLCode">[strBody]</InOutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="userEmail">[userEmail]</OutArgument>
+              </ui:InvokeCode.Arguments>
+            </ui:InvokeCode>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[emails]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(item.Headers("FROM").ToString,"[a-zA-Z0-9-_.]+@[a-zA-Z.]+").value]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[&quot;Body &quot; +strBody]" />
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SequenceAylien workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="SequenceAylien.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="x:String" x:Key="text">[strBody]</InArgument>
+                <InOutArgument x:TypeArguments="x:String" x:Key="description">[summary]</InOutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <Delay Duration="00:00:05" sap2010:WorkflowViewState.IdRef="Delay_1" />
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_10" Text="-----------before----------" />
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="[&quot;summry &quot;+ summary]" />
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_9" Text="[&quot;boby&quot;+ strBody]" />
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sequence_TextAnalysis workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Sequence_TextAnalysis.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="x:String" x:Key="text">[strBody]</InArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="getName">[name]</OutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <Delay Duration="00:00:04" sap2010:WorkflowViewState.IdRef="Delay_2" />
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="[name]" />
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[subject]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[item.Subject]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_7" Text="[subject]" />
+            <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_8" Text="[&quot;summary-&lt;-&gt;&quot; &amp;summary]" />
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke logTicket workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="logTicket.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="x:String" x:Key="name">[name]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="email">[emails]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="priority">*Critical*</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="message">[summary]</InArgument>
+                <OutArgument x:TypeArguments="ui:GenericValue" x:Key="ticketNo">[tciketDetail]</OutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendMail workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="SendMail.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="x:String" x:Key="subject">["Re:"+subject]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="body" xml:space="preserve">["Hi Sir/Madam, A complaint has registered as per your  mail.The ticket details is  "+tciketDetail + ".The concerned department will get in touch with you."+Environment.NewLine+Environment.NewLine+"From: "+ item.From.Address+Environment.NewLine+"Sent: "+item.Headers.Get("date").ToString+Environment.NewLine+"To: "+string.Join(",",item.To) +Environment.NewLine+"Cc: "+string.Join(",",item.CC)+Environment.NewLine+"Subject: "+item.Subject+ Environment.NewLine+ strBody]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="to_address">[emails]</InArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <sads:DebugSymbol.Symbol>dzZGOlxVaVBhdGhQcm9qZWN0XEdNYWlsQWN0aXZpdGllc1Rlc3RcU2VxdWVuY2VNYWlsLnhhbWw/QwOjAQ4CAQFMBUzGAgIBVU0FTXoCAVJOBaEBEgIBAky/AkzDAgIBXEx0TIoBAgFbTIYCTIsCAgFaTN4BTOoBAgFYTKsCTLoCAgFXTPQBTIACAgFWTVxNdwIBU06XAU6jAQIBUFQLngEWAgEDWg1hFgIBS2INZx0CAUZoDW8WAgFBcA1whQECAT5xDXYlAgE4dw13VAIBNngNeIUBAgE0eQ15hwECATF6DXqEAQIBLnsNgAElAgEogQENgQFUAgEmggENggFvAgEjgwENigEWAgEeiwENiwFyAgEbjAENjAGVAQIBGI0BDZYBJQIBC5cBDZ0BJQIBBF84X0MCAU5cOVxCAgFMZUtlVgIBSWRMZFUCAUdtOG2mAQIBRGo5akECAUJwZHCCAQIBP3NFc04CATxxwwFx2AECATt0T3RYAgE5dx13JwIBN3hleIIBAgE1eWR5hAECATJ6ZHqBAQIBL35Jfk8CASx9RX1OAgEqe8oBe+YBAgEpgQEdgQEnAgEnggFkggFsAgEkiAE4iAFGAgEhhQE5hQFCAgEfiwFkiwFvAgEcjAFkjAGSAQIBGZEBSZEBUwIBF5ABRpABTgIBFZQBUZQBXwIBE5IBSJIBUQIBEY0BvgGNAc4BAgEQkwFIkwFRAgEOjwFFjwFLAgEMmQFImQFXAgEIlwG9AZcBzAECAQebAUubAVMCAQU=</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="GetPOP3MailMessages_1" sap:VirtualizedContainerService.HintSize="352,22" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="352,61" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="314,60" />
+      <sap2010:ViewStateData Id="InvokeCode_1" sap:VirtualizedContainerService.HintSize="314,164" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="314,60" />
+      <sap2010:ViewStateData Id="WriteLine_4" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Delay_1" sap:VirtualizedContainerService.HintSize="314,22" />
+      <sap2010:ViewStateData Id="WriteLine_10" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="WriteLine_9" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_2" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Delay_2" sap:VirtualizedContainerService.HintSize="314,22" />
+      <sap2010:ViewStateData Id="WriteLine_6" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="314,60" />
+      <sap2010:ViewStateData Id="WriteLine_7" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="WriteLine_8" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_3" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_4" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,1927">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_2" sap:VirtualizedContainerService.HintSize="352,2061" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="374,2348">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SequenceMail_1" sap:VirtualizedContainerService.HintSize="414,2428">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="ShouldCollapseAll">False</x:Boolean>
+            <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

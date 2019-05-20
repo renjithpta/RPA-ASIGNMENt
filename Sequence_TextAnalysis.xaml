@@ -1,0 +1,180 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Sequence_TextAnalysis" this:Sequence_TextAnalysis.text="Hi ,i have a complaint regarding the meals supplied .I oredred veg ,but supplied non veg , Kind Regards, Renjith"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:j="clr-namespace:JsonRequestCustomActivity;assembly=JsonRequest"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+ xmlns:p="http://schemas.uipath.com/workflow/activities/cognitive/text/analysis"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:this="clr-namespace:"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="text" Type="InArgument(x:String)" />
+    <x:Property Name="getName" Type="OutArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Sequence_TextAnalysis_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Sequence_TextAnalysis" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="txtError" />
+      <Variable x:TypeArguments="x:String" Name="txtLan" />
+      <Variable x:TypeArguments="x:Double" Name="txtMgn" />
+      <Variable x:TypeArguments="x:Double" Name="txtPlority" />
+      <Variable x:TypeArguments="x:String" Name="txtRowResult" />
+      <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="txtSent" />
+      <Variable x:TypeArguments="x:String" Name="myArray" />
+      <Variable x:TypeArguments="njl:JObject" Name="urlObject" />
+      <Variable x:TypeArguments="njl:JObject" Name="JsonResult" />
+      <Variable x:TypeArguments="x:String" Name="variable1" />
+      <Variable x:TypeArguments="njl:JObject[]" Name="jsonArray" />
+      <Variable x:TypeArguments="njl:JObject" Name="jsonObj" />
+    </Sequence.Variables>
+    <p:GoogleTextAnalysis AnalysisType="Language, Sentiment, Sentences, Entities" DisplayName="Google Text Analysis" Error="[txtError]" sap2010:WorkflowViewState.IdRef="GoogleTextAnalysis_1" Key="AIzaSyBiGz51f5vT8o2jpFK-e-Ty8mDQPFaB2Sk" Language="[txtLan]" Magnitude="[txtMgn]" Polarity="[txtPlority]" RawResult="[txtRowResult]" Sentences="[txtSent]" ServiceUrl="https://language.googleapis.com/v1/documents:annotateText" Text="[text]" />
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[myArray]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["{""document"":{""type"":""PLAIN_TEXT"",""language"":""en"",""content"" : """ + text + " "" } ,""encodingType"":""UTF8""}"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <j:JSONRequest ContinueOnError="{x:Null}" Password="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" DisplayName="JSON request" Endpoint="https://language.googleapis.com/v1/documents:analyzeEntities?key=AIzaSyBiGz51f5vT8o2jpFK-e-Ty8mDQPFaB2Sk" sap2010:WorkflowViewState.IdRef="JSONRequest_1" Method="POST" Payload="[myArray]" Response="[txtLan]" />
+    <ui:DeserializeJson x:TypeArguments="njl:JObject" DisplayName="Deserialize json" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_6" JsonObject="[JsonObj]" JsonString="[txtLan]" />
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[getName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">
+          <Literal x:TypeArguments="x:String" Value="" />
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="For each LINQ version" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[jsonObj(&quot;entities&quot;).Where( _&#xD;&#xA;Function(x As JToken)  _&#xD;&#xA; x(&quot;type&quot;).Value(Of String).Equals(&quot;PERSON&quot;))]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="njl:JToken">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="njl:JToken" Name="entry" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <ui:CommentOut DisplayName="Comment Out">
+              <ui:CommentOut.Body>
+                <Sequence DisplayName="Ignored Activities">
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="[entry(&quot;name&quot;).ToString]" />
+                  <sap2010:WorkflowViewState.IdRef>Sequence_3</sap2010:WorkflowViewState.IdRef>
+                </Sequence>
+              </ui:CommentOut.Body>
+              <sap2010:WorkflowViewState.IdRef>CommentOut_1</sap2010:WorkflowViewState.IdRef>
+            </ui:CommentOut>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[getName]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[entry("name").ToString]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <sads:DebugSymbol.Symbol>dz9GOlxVaVBhdGhQcm9qZWN0XEdNYWlsQWN0aXZpdGllc1Rlc3RcU2VxdWVuY2VfVGV4dEFuYWx5c2lzLnhhbWwgAWsB3AEBAk8DkAEOAgEBXgVetwMCAR5fBWYOAgEZZwVn4QICARNoBWi7AQIBDmkFcg4CAQpzBY4BEgIBAl6MAl6WAgIBLV7UAl7fAgIBK16sA160AwIBKV58XogBAgEnXusCXqYDAgEmXqACXq4CAgEkXsQBXu0BAgEjXvcBXoECAgEhXrkCXskCAgEfZDBkrAECARxhMWE6AgEaZ78CZ8oCAgEXZ9QCZ94CAgEVZ44BZ/gBAgEUaK4BaLgBAgERaJcBaKIBAgEPbwtvOgIBDWsxazoCAQtznwFztgICAQl5C4sBFgIBA3oNggEdAgEIgwENigEWAgEEiAE4iAFQAgEHhQE5hQFCAgEF</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="GoogleTextAnalysis_1" sap:VirtualizedContainerService.HintSize="454,60" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="454,60" />
+      <sap2010:ViewStateData Id="JSONRequest_1" sap:VirtualizedContainerService.HintSize="454,22" />
+      <sap2010:ViewStateData Id="DeserializeJson`1_6" sap:VirtualizedContainerService.HintSize="454,60" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="454,60" />
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="210,61" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="232,185">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CommentOut_1" sap:VirtualizedContainerService.HintSize="416,263" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="416,60" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="438,487">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="454,625" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="476,1211">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_TextAnalysis_1" sap:VirtualizedContainerService.HintSize="516,1291" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
